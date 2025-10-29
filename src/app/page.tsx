@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Copy, Download } from "lucide-react";
+import { Copy, Download, PanelLeft, PanelLeftClose } from "lucide-react";
 import { toast } from "sonner";
 
 import { FileUpload } from "@/components/file-upload";
@@ -15,6 +15,7 @@ export default function Home() {
   const [markdownContent, setMarkdownContent] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [showEditor, setShowEditor] = useState(false);
 
   const handleFileSelect = async (file: File) => {
     setIsProcessing(true);
@@ -108,8 +109,8 @@ export default function Home() {
 
       {/* Main Content - Three Panel Layout */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Panel - File Upload */}
-        <div className="bg-muted/30 w-80 border-r p-6">
+        {/* Left Panel - File Upload - Fixed width */}
+        <div className="bg-muted/30 w-80 shrink-0 border-r p-6">
           <div className="space-y-4">
             <div>
               <h2 className="text-lg font-semibold">Upload File</h2>
@@ -124,37 +125,58 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Middle Panel - Markdown Editor */}
-        <div className="flex flex-1 flex-col">
-          <div className="border-b px-4 py-3">
-            <h2 className="text-sm font-semibold">Markdown Editor</h2>
-          </div>
-          <div className="flex-1 overflow-auto">
-            {markdownContent ? (
-              <MarkdownEditor
-                value={markdownContent}
-                onChange={setMarkdownContent}
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center p-4">
-                <p className="text-muted-foreground text-sm">
-                  {isProcessing
-                    ? "Processing your file..."
-                    : "Upload a PDF to see the converted Markdown"}
-                </p>
+        {showEditor && (
+          <>
+            <div className="flex w-[500px] shrink-0 flex-col">
+              <div className="border-b px-4 py-3">
+                <h2 className="text-sm font-semibold">Markdown Editor</h2>
               </div>
+              <div className="flex-1 overflow-auto">
+                {markdownContent ? (
+                  <MarkdownEditor
+                    value={markdownContent}
+                    onChange={setMarkdownContent}
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center p-4">
+                    <p className="text-muted-foreground text-sm">
+                      {isProcessing
+                        ? "Processing your file..."
+                        : "Upload a PDF to see the converted Markdown"}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+            <Separator orientation="vertical" />
+          </>
+        )}
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex items-center justify-between border-b px-4 py-3">
+            <h2 className="text-sm font-semibold">Preview</h2>
+            {markdownContent && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowEditor(!showEditor)}
+                className="h-8 gap-2"
+              >
+                {showEditor ? (
+                  <>
+                    <PanelLeftClose className="h-4 w-4" />
+                    Hide Editor
+                  </>
+                ) : (
+                  <>
+                    <PanelLeft className="h-4 w-4" />
+                    Show Editor
+                  </>
+                )}
+              </Button>
             )}
           </div>
-        </div>
-
-        <Separator orientation="vertical" />
-
-        {/* Right Panel - Preview */}
-        <div className="flex flex-1 flex-col">
-          <div className="border-b px-4 py-3">
-            <h2 className="text-sm font-semibold">Preview</h2>
-          </div>
-          <div className="flex-1 overflow-auto p-6">
+          <div className="min-w-0 flex-1 overflow-auto p-6 wrap-break-word">
             <MarkdownPreview content={markdownContent} />
           </div>
         </div>
