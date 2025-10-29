@@ -154,13 +154,13 @@ function validateUser(user) {
 ```typescript
 // ✅ Good error handling
 async function fetchData() {
-  try {
-    const data = await api.getData();
-    return { data, error: null };
-  } catch (error) {
-    console.error("Failed to fetch data:", error);
-    return { data: null, error: "Failed to load data" };
-  }
+	try {
+		const data = await api.getData();
+		return { data, error: null };
+	} catch (error) {
+		console.error("Failed to fetch data:", error);
+		return { data: null, error: "Failed to load data" };
+	}
 }
 ```
 
