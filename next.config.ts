@@ -9,6 +9,16 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push({
+        canvas: "canvas",
+      });
+    }
+    return config;
+  },
+  serverExternalPackages: ["pdf-parse"],
 };
 
 export default bundleAnalyzer(nextConfig);
