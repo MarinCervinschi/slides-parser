@@ -1,5 +1,19 @@
 # Slides Parser
 
+<p align="center">
+  <a href="https://nextjs.org" target="_blank"><img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js"></a>
+  <a href="https://www.typescriptlang.org" target="_blank"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"></a>
+  <a href="https://tailwindcss.com" target="_blank"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+  <a href="https://ui.shadcn.com" target="_blank"><img src="https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcn-ui&logoColor=white" alt="shadcn/ui"></a>
+  <a href="https://deepmind.google/technologies/gemini" target="_blank"><img src="https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google-gemini&logoColor=white" alt="Google Gemini"></a>
+  <a href="https.vercel.com" target="_blank"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel"></a>
+  <a href="https://redis.io" target="_blank"><img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis"></a>
+  <a href="https://upstash.com" target="_blank"><img src="https://img.shields.io/badge/Upstash-000000?style=for-the-badge&logo=upstash&logoColor=white" alt="Upstash"></a>
+  <a href="https://prettier.io" target="_blank"><img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white" alt="Prettier"></a>
+  <a href="https://eslint.org" target="_blank"><img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="ESLint"></a>
+  <a href="https://jestjs.io" target="_blank"><img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="Jest"></a>
+</p>
+
 A web application that converts PDF slides into well-formatted Markdown using AI. Built with Next.js, TypeScript, and Google's Gemini API.
 
 ## Features
@@ -65,17 +79,6 @@ yarn dev
 3. **Edit**: Make any changes you want in the Markdown editor
 4. **Preview**: See the rendered Markdown in real-time on the right panel
 5. **Export**: Copy to clipboard or download as a .md file
-
-## Tech Stack
-
-- **Framework**: Next.js 16 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
-- **UI Components**: shadcn/ui
-- **AI**: Google Gemini via Vercel AI SDK
-- **PDF Processing**: pdf-parse
-- **Markdown Rendering**: react-markdown with syntax highlighting
-- **State Management & Rate Limiting**: Redis with @upstash/redis
 
 ## Project Structure
 
