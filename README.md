@@ -11,6 +11,7 @@ A web application that converts PDF slides into well-formatted Markdown using AI
 - 💾 Download as .md file
 - 🎨 Beautiful UI with dark mode support
 - 🔄 Drag-and-drop file upload
+- 📈 Rate limiting (3 requests per user every day)
 
 ## Getting Started
 
@@ -18,6 +19,7 @@ A web application that converts PDF slides into well-formatted Markdown using AI
 
 - Node.js 18+ installed
 - A Google Gemini API key (get one at https://aistudio.google.com/app/apikey)
+- An Upstash Redis database for request tracking
 
 ### Installation
 
@@ -25,7 +27,7 @@ A web application that converts PDF slides into well-formatted Markdown using AI
 
 ```bash
 git clone <your-repo-url>
-cd slidesparser
+cd slides-parser
 ```
 
 2. Install dependencies:
@@ -41,7 +43,7 @@ yarn install
 3. Create a `.env.local` file in the root directory:
 
 ```env
-GOOGLE_GENERATIVE_AI_API_KEY=your_api_key_here
+cp .env.local.example .env.local
 ```
 
 4. Run the development server:
@@ -73,6 +75,7 @@ yarn dev
 - **AI**: Google Gemini via Vercel AI SDK
 - **PDF Processing**: pdf-parse
 - **Markdown Rendering**: react-markdown with syntax highlighting
+- **State Management & Rate Limiting**: Redis with @upstash/redis
 
 ## Project Structure
 
@@ -80,8 +83,12 @@ yarn dev
 src/
 ├── app/
 │   ├── api/
-│   │   └── parse/
-│   │       └── route.ts          # API endpoint for PDF processing
+│   │   ├── get-request-count/  # API endpoint to retrieve the current request count
+│   │   │   └── route.ts
+│   │   ├── parse/              # API endpoint for PDF processing
+│   │   │   └── route.ts
+│   │   └── track-request/      # API endpoint to track user requests
+│   │       └── route.ts
 │   ├── layout.tsx                # Root layout with theme provider
 │   ├── page.tsx                  # Main application page
 │   └── globals.css               # Global styles and prose classes
@@ -89,16 +96,19 @@ src/
 │   ├── file-upload.tsx           # File upload component with drag-and-drop
 │   ├── markdown-editor.tsx       # Markdown editor component
 │   ├── markdown-preview.tsx      # Markdown preview with syntax highlighting
+│   ├── request-counter.tsx       # Component to display the request counter and progress
 │   └── ui/                       # shadcn/ui components
 └── lib/
+    ├── gemini.service.ts         # Service for interacting with the Gemini API
+    ├── redis.service.ts          # Service for Redis database operations
     └── utils.ts                  # Utility functions
 ```
 
-## Environment Variables
+## API Endpoints
 
-| Variable                       | Description                | Required |
-| ------------------------------ | -------------------------- | -------- |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | Your Google Gemini API key | Yes      |
+- **POST /api/parse**: Handles PDF file uploads, extracts text, and uses the Gemini API to convert it into Markdown. It is rate-limited.
+- **POST /api/track-request**: Tracks each PDF processing request for rate-limiting purposes.
+- **GET /api/get-request-count**: Retrieves the current request count for the user, which is displayed on the frontend.
 
 ## Error Handling
 
@@ -111,6 +121,16 @@ The application includes comprehensive error handling for:
 - Empty or corrupted PDFs
 
 All errors are displayed to the user via toast notifications.
+
+## Rate Limiting and Request Tracking
+
+To prevent abuse and ensure fair usage, the application implements a rate-limiting mechanism based on the user's IP address.
+
+- **Request Limit**: Each user is allowed a maximum of 15 PDF processing requests within a 10-minute window.
+- **Tracking**: The system tracks the number of requests made by each user using Redis.
+- **User Feedback**: A progress bar and a counter are displayed on the UI to inform the user of their remaining requests.
+
+This functionality is managed by a Redis database and a set of dedicated API endpoints.
 
 ## Development
 
@@ -131,14 +151,6 @@ npm run lint
 ```bash
 npm run format
 ```
-
-## Future Enhancements
-
-- [ ] Support for additional file formats (.pptx, .key)
-- [ ] User accounts and conversion history
-- [ ] Batch processing of multiple files
-- [ ] Custom AI prompts for different conversion styles
-- [ ] Export to other formats (HTML, PDF)
 
 ## License
 
