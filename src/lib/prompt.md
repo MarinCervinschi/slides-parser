@@ -16,6 +16,7 @@ Guidelines:
 - If you think there are images or diagrams, add a placeholder like ![Image: description] where they would logically fit and refer to the slide number
 - For each slide, add a part for take notes if applicable
 - Ensure that any mathematical equations are formatted using LaTeX syntax within dollar signs ($...$ for inline, $$...$$ for block)
+- Do not use HTML tags or comments; stick to pure Markdown
 - Return only the Markdown content without any additional explanations or commentary
 
 Here is the extracted text from the PDF:
