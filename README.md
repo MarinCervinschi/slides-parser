@@ -6,14 +6,14 @@ A brief description of the project.
 
 This project leverages the following key technologies and tools:
 
-*   **Next.js**: A React framework for building full-stack web applications.
-*   **React**: A JavaScript library for building user interfaces.
-*   **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
-*   **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs.
-*   **ESLint**: A pluggable linting utility for JavaScript and TypeScript.
-*   **Prettier**: An opinionated code formatter.
-*   **Jest**: A delightful JavaScript Testing Framework with a focus on simplicity.
-*   **Husky**: Git hooks made easy.
+- **Next.js**: A React framework for building full-stack web applications.
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
+- **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs.
+- **ESLint**: A pluggable linting utility for JavaScript and TypeScript.
+- **Prettier**: An opinionated code formatter.
+- **Jest**: A delightful JavaScript Testing Framework with a focus on simplicity.
+- **Husky**: Git hooks made easy.
 
 ## Getting Started
 
