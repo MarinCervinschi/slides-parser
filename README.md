@@ -1,55 +1,126 @@
-# Project Title
+# Slides Parser
 
-A brief description of the project.
+A web application that converts PDF slides into well-formatted Markdown using AI. Built with Next.js, TypeScript, and Google's Gemini API.
 
-## Technologies Used
+## Features
 
-This project leverages the following key technologies and tools:
-
-- **Next.js**: A React framework for building full-stack web applications.
-- **React**: A JavaScript library for building user interfaces.
-- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
-- **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs.
-- **ESLint**: A pluggable linting utility for JavaScript and TypeScript.
-- **Prettier**: An opinionated code formatter.
-- **Jest**: A delightful JavaScript Testing Framework with a focus on simplicity.
-- **Husky**: Git hooks made easy.
+- 📄 Upload PDF files (up to 10MB)
+- 🤖 AI-powered conversion to Markdown using Google Gemini
+- ✏️ Live Markdown editor with real-time preview
+- 📋 Copy to clipboard functionality
+- 💾 Download as .md file
+- 🎨 Beautiful UI with dark mode support
+- 🔄 Drag-and-drop file upload
 
 ## Getting Started
 
-First, install the project dependencies:
+### Prerequisites
+
+- Node.js 18+ installed
+- A Google Gemini API key (get one at https://aistudio.google.com/app/apikey)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <your-repo-url>
+cd slidesparser
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 # or
-yarn install
-# or
 pnpm install
 # or
-bun install
+yarn install
 ```
 
-Then, run the development server:
+3. Create a `.env.local` file in the root directory:
+
+```env
+GOOGLE_GENERATIVE_AI_API_KEY=your_api_key_here
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
 pnpm dev
 # or
-bun dev
+yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
+
+1. **Upload a PDF**: Click the upload area or drag and drop a PDF file (max 10MB)
+2. **Wait for Processing**: The app will extract text and convert it to Markdown using AI
+3. **Edit**: Make any changes you want in the Markdown editor
+4. **Preview**: See the rendered Markdown in real-time on the right panel
+5. **Export**: Copy to clipboard or download as a .md file
+
+## Tech Stack
+
+- **Framework**: Next.js 16 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn/ui
+- **AI**: Google Gemini via Vercel AI SDK
+- **PDF Processing**: pdf-parse
+- **Markdown Rendering**: react-markdown with syntax highlighting
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── parse/
+│   │       └── route.ts          # API endpoint for PDF processing
+│   ├── layout.tsx                # Root layout with theme provider
+│   ├── page.tsx                  # Main application page
+│   └── globals.css               # Global styles and prose classes
+├── components/
+│   ├── file-upload.tsx           # File upload component with drag-and-drop
+│   ├── markdown-editor.tsx       # Markdown editor component
+│   ├── markdown-preview.tsx      # Markdown preview with syntax highlighting
+│   └── ui/                       # shadcn/ui components
+└── lib/
+    └── utils.ts                  # Utility functions
+```
+
+## Environment Variables
+
+| Variable                       | Description                | Required |
+| ------------------------------ | -------------------------- | -------- |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | Your Google Gemini API key | Yes      |
+
+## Error Handling
+
+The application includes comprehensive error handling for:
+
+- Invalid file types (only PDFs are supported)
+- File size limits (max 10MB)
+- PDF parsing errors
+- API errors (network issues, invalid API key, etc.)
+- Empty or corrupted PDFs
+
+All errors are displayed to the user via toast notifications.
 
 ## Development
 
-### Linting
+### Running Tests
 
-To check for code style and potential errors:
+```bash
+npm test
+```
+
+### Linting
 
 ```bash
 npm run lint
@@ -57,41 +128,22 @@ npm run lint
 
 ### Formatting
 
-To automatically format your code:
-
 ```bash
 npm run format
 ```
 
-### Testing
+## Future Enhancements
 
-This project uses Jest for testing.
+- [ ] Support for additional file formats (.pptx, .key)
+- [ ] User accounts and conversion history
+- [ ] Batch processing of multiple files
+- [ ] Custom AI prompts for different conversion styles
+- [ ] Export to other formats (HTML, PDF)
 
-To run the tests:
+## License
 
-```bash
-npm test
-```
+MIT
 
-## Building for Production
+## Contributing
 
-To build the application for production deployment:
-
-```bash
-npm run build
-```
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are welcome! Please feel free to submit a Pull Request.
