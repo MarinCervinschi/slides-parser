@@ -26,7 +26,7 @@ export async function POST() {
 			);
 		}
 
-		const key = RedisService.getRequestKey();
+		const key = await RedisService.getRequestKey();
 
 		// Increment the request count for today
 		const count = await redis.incr(key);
