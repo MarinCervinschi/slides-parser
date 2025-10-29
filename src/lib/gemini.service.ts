@@ -5,6 +5,12 @@ import path from "path";
 
 const model = process.env.GEMINI_MODEL_TYPE || "gemini-1.5-flash-latest";
 
+/**
+ * Generates Markdown from extracted text using the Google Gemini API.
+ *
+ * @param extractedText The text extracted from the PDF.
+ * @returns A promise that resolves to the generated Markdown content.
+ */
 export async function generateMarkdownFromText(extractedText: string): Promise<string> {
 	const promptFilePath = path.join(process.cwd(), "src", "lib", "prompt.md");
 	const promptTemplate = fs.readFileSync(promptFilePath, "utf-8");
