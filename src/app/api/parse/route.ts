@@ -1,7 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { extractText } from "unpdf";
+
 import { generateMarkdownFromText } from "@/lib/gemini.service";
-import { parsePDF } from "@/lib/pdf-parser";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,7 +25,8 @@ export async function POST(request: NextRequest) {
 
     let extractedText: string;
     try {
-      extractedText = await parsePDF(buffer);
+      const { text } = await extractText(buffer);
+      extractedText = text.join("\n");
     } catch (error) {
       console.error("PDF parsing error:", error);
       return NextResponse.json(
