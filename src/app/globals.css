@@ -130,19 +130,19 @@
   }
 
   .prose h1 {
-    @apply text-3xl font-bold mb-4 mt-6;
+    @apply mt-6 mb-4 text-3xl font-bold;
   }
 
   .prose h2 {
-    @apply text-2xl font-bold mb-3 mt-5;
+    @apply mt-5 mb-3 text-2xl font-bold;
   }
 
   .prose h3 {
-    @apply text-xl font-semibold mb-2 mt-4;
+    @apply mt-4 mb-2 text-xl font-semibold;
   }
 
   .prose h4 {
-    @apply text-lg font-semibold mb-2 mt-3;
+    @apply mt-3 mb-2 text-lg font-semibold;
   }
 
   .prose p {
@@ -167,11 +167,11 @@
   }
 
   .prose code {
-    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply bg-muted rounded px-1.5 py-0.5 font-mono text-sm;
   }
 
   .prose pre {
-    @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+    @apply bg-muted mb-4 overflow-x-auto rounded-lg p-4;
   }
 
   .prose pre code {
@@ -179,11 +179,11 @@
   }
 
   .prose blockquote {
-    @apply border-l-4 border-primary pl-4 italic my-4;
+    @apply border-primary my-4 border-l-4 pl-4 italic;
   }
 
   .prose a {
-    @apply text-primary underline hover:text-primary/80;
+    @apply text-primary hover:text-primary/80 underline;
   }
 
   .prose strong {
@@ -199,14 +199,14 @@
   }
 
   .prose table {
-    @apply w-full border-collapse mb-4;
+    @apply mb-4 w-full border-collapse;
   }
 
   .prose th {
-    @apply border border-border bg-muted px-4 py-2 text-left font-semibold;
+    @apply border-border bg-muted border px-4 py-2 text-left font-semibold;
   }
 
   .prose td {
-    @apply border border-border px-4 py-2;
+    @apply border-border border px-4 py-2;
   }
 }
