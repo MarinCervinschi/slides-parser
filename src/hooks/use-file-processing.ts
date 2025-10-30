@@ -20,8 +20,8 @@ export function useFileProcessing() {
 		setFileName(file.name.replace(".pdf", ""));
 
 		try {
-			const data = await parseFile(file, userId || "");
-			setMarkdownContent(data.markdown);
+			const markdownData = await parseFile(file, userId || "");
+			setMarkdownContent(markdownData);
 			toast.success("File converted to Markdown successfully!");
 
 			await trackRequest(userId || "");

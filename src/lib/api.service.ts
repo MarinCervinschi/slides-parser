@@ -12,7 +12,7 @@ export async function parseFile(file: File, userId: string) {
 		method: "POST",
 		body: formData,
 		headers: {
-			"X-User-ID": userId || "",
+			"X-User-ID": userId,
 		},
 	});
 
@@ -26,7 +26,7 @@ export async function parseFile(file: File, userId: string) {
 		throw new Error(data.error || "Failed to process file");
 	}
 
-	return data;
+	return data.markdown;
 }
 
 /**
@@ -37,7 +37,7 @@ export async function trackRequest(userId: string) {
 	await fetch("/api/track-request", {
 		method: "POST",
 		headers: {
-			"X-User-ID": userId || "",
+			"X-User-ID": userId,
 		},
 	});
 }

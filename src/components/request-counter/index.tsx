@@ -21,7 +21,7 @@ export function RequestCounter() {
 
 			try {
 				setLoading(true);
-				const { ok, count, limit } = await getRequestCount(userId);
+				const { ok, count, limit } = await getRequestCount(userId || "");
 				if (ok) {
 					setCount(count);
 					setLimit(limit);
