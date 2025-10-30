@@ -78,7 +78,7 @@ export class RedisService {
 			return cfConnectingIp;
 		}
 
-		return "127.0.0.1";
+		return "unknown";
 	}
 
 	/**

@@ -10,8 +10,6 @@ export async function POST() {
 			return NextResponse.json({ error: "Unable to identify client" }, { status: 400 });
 		}
 
-		const redis = RedisService.redis();
-
 		const currentCount = await RedisService.getRequestCount();
 
 		if (currentCount >= RedisService.MAX_REQUESTS_PER_DAY) {
@@ -26,6 +24,7 @@ export async function POST() {
 			);
 		}
 
+		const redis = RedisService.redis();
 		const key = await RedisService.getRequestKey();
 
 		// Increment the request count for today
