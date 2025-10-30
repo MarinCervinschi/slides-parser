@@ -15,6 +15,7 @@ Guidelines:
 - When you are not sure about content, or there are ambiguities, add references for the slide number or section
 - If you think there are images or diagrams, add a placeholder like ![Image: description] where they would logically fit and refer to the slide number
 - Ensure that any mathematical equations are formatted using LaTeX syntax within dollar signs ($...$ for inline, $$...$$ for block)
+- If a equation is unclear or missing something, fix it based on your best understanding and add a note referencing the slide number
 - Do not use HTML tags or comments; stick to pure Markdown
 - Return only the Markdown content without any additional explanations or commentary
 
