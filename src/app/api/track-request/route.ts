@@ -34,12 +34,16 @@ export async function POST() {
 		const redisClient = redis();
 		const key = await getRequestKey();
 
-		// Increment the request count for today
-		const count = await redisClient.incr(key);
+		let count = 0;
 
-		// Set expiration to 7 days (604800 seconds) if this is the first request
-		if (count === 1) {
-			await redisClient.expire(key, 604800);
+		if (key !== "localhost") {
+			// Increment the request count for today
+			count = await redisClient.incr(key);
+
+			// Set expiration to 7 days (604800 seconds) if this is the first request
+			if (count === 1) {
+				await redisClient.expire(key, 604800);
+			}
 		}
 
 		return NextResponse.json({

@@ -55,6 +55,20 @@ describe("redis.service", () => {
 			const count = await getRequestCount();
 			expect(count).toBe(0);
 		});
+
+		it("should return 0 and not call redis if ip is localhost", async () => {
+			(headers as jest.Mock).mockReturnValue({
+				get: jest.fn((name: string) => {
+					if (name === "x-forwarded-for") return "127.0.0.1";
+					return null;
+				}),
+			});
+
+			const count = await getRequestCount();
+
+			expect(count).toBe(0);
+			expect(mockRedisInstance.get).not.toHaveBeenCalled();
+		});
 	});
 
 	describe("getRequestKey", () => {
@@ -74,6 +88,17 @@ describe("redis.service", () => {
 			const key = await getRequestKey();
 			const today = getTodayKey();
 			expect(key).toBe(`requests:192.168.1.1:${today}`);
+		});
+
+		it("should return 'localhost' if IP is 127.0.0.1", async () => {
+			(headers as jest.Mock).mockReturnValue({
+				get: jest.fn((name: string) => {
+					if (name === "x-forwarded-for") return "127.0.0.1";
+					return null;
+				}),
+			});
+			const key = await getRequestKey();
+			expect(key).toBe("localhost");
 		});
 	});
 

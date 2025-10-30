@@ -22,6 +22,10 @@ export const redis = (): Redis => {
  */
 export async function getRequestCount(): Promise<number> {
 	const key = await getRequestKey();
+	if (key === "localhost") {
+		return 0;
+	}
+
 	const count = await redis().get<number>(key);
 	return count || 0;
 }
@@ -32,6 +36,10 @@ export async function getRequestCount(): Promise<number> {
  */
 export async function getRequestKey(): Promise<string> {
 	const ipAddress = await getClientIP();
+	if (ipAddress === "127.0.0.1" || ipAddress === "::1") {
+		return "localhost";
+	}
+
 	const userId = await getUserId();
 	const date = getTodayKey();
 
