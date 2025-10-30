@@ -2,8 +2,8 @@
 
 import { PanelLeft, PanelLeftClose } from "lucide-react";
 
-import { MarkdownEditor } from "@/components/markdown-editor";
-import { MarkdownPreview } from "@/components/markdown-preview";
+import { MarkdownEditor } from "@/components/markdown/markdown-editor";
+import { MarkdownPreview } from "@/components/markdown/markdown-preview";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 

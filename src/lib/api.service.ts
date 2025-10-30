@@ -41,3 +41,23 @@ export async function trackRequest(userId: string) {
 		},
 	});
 }
+
+/**
+ * Gets the request count for a user.
+ * @param userId The ID of the user.
+ * @returns An object containing the request count and limit.
+ */
+export async function getRequestCount(userId: string) {
+	const response = await fetch("/api/get-request-count", {
+		headers: {
+			"X-User-ID": userId,
+		},
+	});
+
+	if (!response.ok) {
+		return { ok: false, count: 0, limit: 0 };
+	}
+
+	const data = await response.json();
+	return { ok: true, count: data.count, limit: data.limit };
+}

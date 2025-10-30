@@ -1,7 +1,8 @@
 "use client";
 
-import { FileUpload } from "@/components/file-upload";
 import { RequestCounter } from "@/components/request-counter";
+
+import { FileUpload } from ".";
 
 interface FileUploadPanelProps {
 	onFileSelect: (file: File) => void;

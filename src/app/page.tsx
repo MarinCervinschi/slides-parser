@@ -1,8 +1,8 @@
 "use client";
 
-import { FileUploadPanel } from "@/components/file-upload-panel";
-import { Header } from "@/components/header";
-import { MainContent } from "@/components/main-content";
+import { FileUploadPanel } from "@/components/file-upload/file-upload-panel";
+import { Header } from "@/components/layout/header";
+import { MainContent } from "@/components/layout/main-content";
 import { useFileProcessing } from "@/hooks/use-file-processing";
 
 export default function Home() {

@@ -7,6 +7,7 @@ import { Activity } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useUserId } from "@/hooks/use-user-id";
+import { getRequestCount } from "@/lib/api.service";
 
 export function RequestCounter() {
 	const [count, setCount] = useState<number>(0);
@@ -19,15 +20,11 @@ export function RequestCounter() {
 			if (!userId) return;
 
 			try {
-				const response = await fetch("/api/get-request-count", {
-					headers: {
-						"X-User-ID": userId,
-					},
-				});
-				if (response.ok) {
-					const data = await response.json();
-					setCount(data.count);
-					setLimit(data.limit);
+				setLoading(true);
+				const { ok, count, limit } = await getRequestCount(userId);
+				if (ok) {
+					setCount(count);
+					setLimit(limit);
 				}
 			} catch (error) {
 				console.error("Error fetching request count:", error);
