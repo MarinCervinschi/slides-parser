@@ -14,6 +14,7 @@ export default function Home() {
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [fileName, setFileName] = useState("");
 	const [showEditor, setShowEditor] = useState(false);
+	const [requestCount, setRequestCount] = useState(0);
 	const userId = useUserId();
 
 	const handleFileSelect = async (file: File) => {
@@ -54,6 +55,8 @@ export default function Home() {
 					"X-User-ID": userId || "",
 				},
 			});
+
+			setRequestCount(prev => prev + 1);
 		} catch (error) {
 			console.error("Error processing file:", error);
 			toast.error(error instanceof Error ? error.message : "Failed to process file");
@@ -99,7 +102,11 @@ export default function Home() {
 				onDownload={handleDownload}
 			/>
 			<div className="flex flex-1 overflow-hidden">
-				<FileUploadPanel onFileSelect={handleFileSelect} isProcessing={isProcessing} />
+				<FileUploadPanel
+					onFileSelect={handleFileSelect}
+					isProcessing={isProcessing}
+					requestCount={requestCount}
+				/>{" "}
 				<MainContent
 					markdownContent={markdownContent}
 					isProcessing={isProcessing}

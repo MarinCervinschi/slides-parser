@@ -6,9 +6,14 @@ import { RequestCounter } from "@/components/request-counter";
 interface FileUploadPanelProps {
 	onFileSelect: (file: File) => void;
 	isProcessing: boolean;
+	requestCount: number;
 }
 
-export function FileUploadPanel({ onFileSelect, isProcessing }: FileUploadPanelProps) {
+export function FileUploadPanel({
+	onFileSelect,
+	isProcessing,
+	requestCount,
+}: FileUploadPanelProps) {
 	return (
 		<div className="bg-muted/30 w-80 shrink-0 border-r p-6">
 			<div className="space-y-4">
@@ -20,7 +25,7 @@ export function FileUploadPanel({ onFileSelect, isProcessing }: FileUploadPanelP
 				</div>
 				<FileUpload onFileSelect={onFileSelect} isProcessing={isProcessing} />
 				<div className="pt-2">
-					<RequestCounter />
+					<RequestCounter key={requestCount} />
 				</div>
 			</div>
 		</div>
