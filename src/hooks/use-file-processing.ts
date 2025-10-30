@@ -1,0 +1,78 @@
+"use client";
+
+import { useState } from "react";
+
+import { toast } from "sonner";
+
+import { useUserId } from "@/hooks/use-user-id";
+import { parseFile, trackRequest } from "@/lib/api.service";
+
+export function useFileProcessing() {
+	const [markdownContent, setMarkdownContent] = useState("");
+	const [isProcessing, setIsProcessing] = useState(false);
+	const [fileName, setFileName] = useState("");
+	const [showEditor, setShowEditor] = useState(false);
+	const [requestCount, setRequestCount] = useState(0);
+	const userId = useUserId();
+
+	const handleFileSelect = async (file: File) => {
+		setIsProcessing(true);
+		setFileName(file.name.replace(".pdf", ""));
+
+		try {
+			const data = await parseFile(file, userId || "");
+			setMarkdownContent(data.markdown);
+			toast.success("File converted to Markdown successfully!");
+
+			await trackRequest(userId || "");
+
+			setRequestCount(prev => prev + 1);
+		} catch (error) {
+			console.error("Error processing file:", error);
+			toast.error(error instanceof Error ? error.message : "Failed to process file");
+			setMarkdownContent("");
+		} finally {
+			setIsProcessing(false);
+		}
+	};
+
+	const handleCopyToClipboard = async () => {
+		try {
+			await navigator.clipboard.writeText(markdownContent);
+			toast.success("Copied to clipboard!");
+		} catch (error) {
+			toast.error("Failed to copy to clipboard");
+			console.error("Error copying to clipboard:", error);
+		}
+	};
+
+	const handleDownload = () => {
+		try {
+			const blob = new Blob([markdownContent], { type: "text/markdown" });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = `${fileName || "document"}.md`;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+			toast.success("File downloaded!");
+		} catch (error) {
+			toast.error("Failed to download file");
+			console.error("Error downloading file:", error);
+		}
+	};
+
+	return {
+		markdownContent,
+		isProcessing,
+		requestCount,
+		showEditor,
+		handleFileSelect,
+		handleCopyToClipboard,
+		handleDownload,
+		setMarkdownContent,
+		setShowEditor,
+	};
+}
