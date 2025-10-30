@@ -5,6 +5,8 @@ import path from "path";
 
 import { generateMarkdownFromText } from "../gemini.service";
 
+const model = process.env.GEMINI_MODEL_TYPE || "gemini-1.5-flash-latest";
+
 // Mock the 'ai' module
 jest.mock("ai", () => ({
 	generateText: jest.fn(),
@@ -12,7 +14,7 @@ jest.mock("ai", () => ({
 
 // Mock the '@ai-sdk/google' module
 jest.mock("@ai-sdk/google", () => ({
-	google: jest.fn(() => ({ modelId: "gemini-1.5-flash-latest" })),
+	google: jest.fn(() => ({ modelId: model })),
 }));
 
 // Mock the 'fs' module
@@ -41,7 +43,6 @@ describe("gemini.service", () => {
 		(generateText as jest.Mock).mockResolvedValue({ text: expectedMarkdown });
 
 		const result = await generateMarkdownFromText(extractedText);
-		const model = process.env.GEMINI_MODEL_TYPE || "gemini-1.5-flash-latest";
 
 		expect(path.join).toHaveBeenCalledWith(process.cwd(), "src", "lib", "prompt.md");
 		expect(fs.readFileSync).toHaveBeenCalledWith(expect.any(String), "utf-8");
