@@ -1,21 +1,26 @@
 import { NextResponse } from "next/server";
 
-import { RedisService } from "@/lib/redis.service";
+import {
+	MAX_REQUESTS_PER_DAY,
+	getClientIP,
+	getRequestCount,
+	getTodayKey,
+} from "@/lib/redis.service";
 
 export async function GET() {
 	try {
-		const ipAddress = await RedisService.getClientIP();
+		const ipAddress = await getClientIP();
 
 		if (!ipAddress || ipAddress === "unknown") {
 			return NextResponse.json({ error: "Unable to identify client" }, { status: 400 });
 		}
 
-		const count = await RedisService.getRequestCount();
+		const count = await getRequestCount();
 
 		return NextResponse.json({
 			count: count || 0,
-			limit: RedisService.MAX_REQUESTS_PER_DAY,
-			date: RedisService.getTodayKey(),
+			limit: MAX_REQUESTS_PER_DAY,
+			date: getTodayKey(),
 		});
 	} catch (error) {
 		console.error("Error getting request count:", error);
