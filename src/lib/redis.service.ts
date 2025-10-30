@@ -36,7 +36,13 @@ export class RedisService {
 	 */
 	static async getRequestKey(): Promise<string> {
 		const ipAddress = await RedisService.getClientIP();
+		const userId = await RedisService.getUserId();
 		const date = RedisService.getTodayKey();
+
+		if (userId) {
+			return `requests:${ipAddress}:${userId}:${date}`;
+		}
+
 		return `requests:${ipAddress}:${date}`;
 	}
 
@@ -72,6 +78,15 @@ export class RedisService {
 			return cfConnectingIp;
 		}
 
-		return "unknown";
+		return "127.0.0.1";
+	}
+
+	/**
+	 * Retrieves the user's ID from the request headers.
+	 * @returns A promise that resolves to the user's ID.
+	 */
+	static async getUserId(): Promise<string | null> {
+		const headersList = await headers();
+		return headersList.get("x-user-id") || null;
 	}
 }
