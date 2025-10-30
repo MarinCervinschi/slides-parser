@@ -41,14 +41,15 @@ describe("gemini.service", () => {
 		(generateText as jest.Mock).mockResolvedValue({ text: expectedMarkdown });
 
 		const result = await generateMarkdownFromText(extractedText);
+		const model = process.env.GEMINI_MODEL_TYPE || "gemini-1.5-flash-latest";
 
 		expect(path.join).toHaveBeenCalledWith(process.cwd(), "src", "lib", "prompt.md");
 		expect(fs.readFileSync).toHaveBeenCalledWith(expect.any(String), "utf-8");
 		expect(generateText).toHaveBeenCalledWith({
-			model: expect.objectContaining({ modelId: "gemini-1.5-flash-latest" }),
+			model: expect.objectContaining({ modelId: model }),
 			prompt: mockPromptTemplate.replace("{extractedText}", extractedText),
 		});
-		expect(google).toHaveBeenCalledWith("gemini-1.5-flash-latest");
+		expect(google).toHaveBeenCalledWith(model);
 		expect(result).toEqual(expectedMarkdown);
 	});
 });
