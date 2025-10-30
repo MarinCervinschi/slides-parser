@@ -7,13 +7,14 @@ import { toast } from "sonner";
 import { FileUploadPanel } from "@/components/file-upload-panel";
 import { Header } from "@/components/header";
 import { MainContent } from "@/components/main-content";
+import { useUserId } from "@/hooks/use-user-id";
 
 export default function Home() {
 	const [markdownContent, setMarkdownContent] = useState("");
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [fileName, setFileName] = useState("");
 	const [showEditor, setShowEditor] = useState(false);
-	const [requestCount, setRequestCount] = useState(0);
+	const userId = useUserId();
 
 	const handleFileSelect = async (file: File) => {
 		setIsProcessing(true);
@@ -26,6 +27,9 @@ export default function Home() {
 			const response = await fetch("/api/parse", {
 				method: "POST",
 				body: formData,
+				headers: {
+					"X-User-ID": userId || "",
+				},
 			});
 
 			const data = await response.json();
@@ -46,9 +50,10 @@ export default function Home() {
 
 			await fetch("/api/track-request", {
 				method: "POST",
+				headers: {
+					"X-User-ID": userId || "",
+				},
 			});
-
-			setRequestCount(prev => prev + 1);
 		} catch (error) {
 			console.error("Error processing file:", error);
 			toast.error(error instanceof Error ? error.message : "Failed to process file");
@@ -94,11 +99,7 @@ export default function Home() {
 				onDownload={handleDownload}
 			/>
 			<div className="flex flex-1 overflow-hidden">
-				<FileUploadPanel
-					onFileSelect={handleFileSelect}
-					isProcessing={isProcessing}
-					requestCount={requestCount}
-				/>
+				<FileUploadPanel onFileSelect={handleFileSelect} isProcessing={isProcessing} />
 				<MainContent
 					markdownContent={markdownContent}
 					isProcessing={isProcessing}
