@@ -3,16 +3,16 @@ import { type NextRequest, NextResponse } from "next/server";
 import { extractText } from "unpdf";
 
 import { generateMarkdownFromText } from "@/lib/gemini.service";
-import { RedisService } from "@/lib/redis.service";
+import { MAX_REQUESTS_PER_DAY, getRequestCount } from "@/lib/redis.service";
 
 export async function POST(request: NextRequest) {
 	try {
-		const currentCount = await RedisService.getRequestCount();
+		const currentCount = await getRequestCount();
 
-		if (currentCount >= RedisService.MAX_REQUESTS_PER_DAY) {
+		if (currentCount >= MAX_REQUESTS_PER_DAY) {
 			return NextResponse.json(
 				{
-					error: `Rate limit exceeded. You can only process ${RedisService.MAX_REQUESTS_PER_DAY} files per day.`,
+					error: `Rate limit exceeded. You can only process ${MAX_REQUESTS_PER_DAY} files per day.`,
 					rateLimitExceeded: true,
 				},
 				{ status: 429 }

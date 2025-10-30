@@ -80,33 +80,6 @@ yarn dev
 4. **Preview**: See the rendered Markdown in real-time on the right panel
 5. **Export**: Copy to clipboard or download as a .md file
 
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/
-│   │   ├── get-request-count/  # API endpoint to retrieve the current request count
-│   │   │   └── route.ts
-│   │   ├── parse/              # API endpoint for PDF processing
-│   │   │   └── route.ts
-│   │   └── track-request/      # API endpoint to track user requests
-│   │       └── route.ts
-│   ├── layout.tsx                # Root layout with theme provider
-│   ├── page.tsx                  # Main application page
-│   └── globals.css               # Global styles and prose classes
-├── components/
-│   ├── file-upload.tsx           # File upload component with drag-and-drop
-│   ├── markdown-editor.tsx       # Markdown editor component
-│   ├── markdown-preview.tsx      # Markdown preview with syntax highlighting
-│   ├── request-counter.tsx       # Component to display the request counter and progress
-│   └── ui/                       # shadcn/ui components
-└── lib/
-    ├── gemini.service.ts         # Service for interacting with the Gemini API
-    ├── redis.service.ts          # Service for Redis database operations
-    └── utils.ts                  # Utility functions
-```
-
 ## API Endpoints
 
 - **POST /api/parse**: Handles PDF file uploads, extracts text, and uses the Gemini API to convert it into Markdown. It is rate-limited.
@@ -127,9 +100,10 @@ All errors are displayed to the user via toast notifications.
 
 ## Rate Limiting and Request Tracking
 
-To prevent abuse and ensure fair usage, the application implements a rate-limiting mechanism based on the user's IP address.
+To prevent abuse and ensure fair usage, the application implements a hybrid rate-limiting mechanism.
 
-- **Request Limit**: Each user is allowed a maximum of 15 PDF processing requests within a 10-minute window.
+- **Request Limit**: Each user is allowed a maximum of 3 PDF processing requests per day.
+- **Identification**: Users are identified by a combination of their IP address and a unique client-side generated UUID stored in `localStorage`. This allows for a fairer distribution of requests, especially for users behind the same NAT.
 - **Tracking**: The system tracks the number of requests made by each user using Redis.
 - **User Feedback**: A progress bar and a counter are displayed on the UI to inform the user of their remaining requests.
 

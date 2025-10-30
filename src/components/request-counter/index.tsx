@@ -6,20 +6,25 @@ import { Activity } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useUserId } from "@/hooks/use-user-id";
+import { getRequestCount } from "@/lib/api.service";
 
 export function RequestCounter() {
 	const [count, setCount] = useState<number>(0);
 	const [limit, setLimit] = useState<number>(3);
 	const [loading, setLoading] = useState(true);
+	const userId = useUserId();
 
 	useEffect(() => {
 		const fetchCount = async () => {
+			if (!userId) return;
+
 			try {
-				const response = await fetch("/api/get-request-count");
-				if (response.ok) {
-					const data = await response.json();
-					setCount(data.count);
-					setLimit(data.limit);
+				setLoading(true);
+				const { ok, count, limit } = await getRequestCount(userId || "");
+				if (ok) {
+					setCount(count);
+					setLimit(limit);
 				}
 			} catch (error) {
 				console.error("Error fetching request count:", error);
@@ -29,7 +34,7 @@ export function RequestCounter() {
 		};
 
 		fetchCount();
-	}, []);
+	}, [userId]);
 
 	const progressPercentage = (count / limit) * 100;
 	const isLimitReached = count >= limit;
