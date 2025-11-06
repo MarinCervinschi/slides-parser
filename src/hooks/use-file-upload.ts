@@ -19,9 +19,9 @@ export function useFileUpload({ onFileSelect }: UseFileUploadProps) {
 			return false;
 		}
 
-		const maxSize = 10 * 1024 * 1024; // 10MB
+		const maxSize = 15 * 1024 * 1024; // 15MB
 		if (file.size > maxSize) {
-			setError("File size must be less than 10MB");
+			setError("File size must be less than 15MB");
 			return false;
 		}
 
