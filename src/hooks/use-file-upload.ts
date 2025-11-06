@@ -6,8 +6,8 @@ interface UseFileUploadProps {
 	onFileSelect: (file: File) => void;
 }
 
-const maxSize = process.env.MAX_FILE_SIZE_MB
-	? parseInt(process.env.MAX_FILE_SIZE_MB) * 1024 * 1024
+const maxSize = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB
+	? parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB) * 1024 * 1024
 	: 15 * 1024 * 1024; // Default to 15MB if not set
 
 export function useFileUpload({ onFileSelect }: UseFileUploadProps) {
