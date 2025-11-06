@@ -54,13 +54,20 @@ export function FileUpload({ onFileSelect, isProcessing = false }: FileUploadPro
 						<p className="mb-1 text-sm font-medium">
 							Drop your PDF here or click to browse
 						</p>
-						<p className="text-muted-foreground text-xs">
-							Maximum file size: {isProduction ? 4.5 : maxSize / 1024 / 1024}MB
-						</p>
-						{isProduction && (
+						{!isProduction && (
 							<p className="text-muted-foreground text-xs">
-								(vercel limits | run locally to have more flexibility)
+								Maximum file size: {maxSize / 1024 / 1024}MB
 							</p>
+						)}
+						{isProduction && (
+							<>
+								<p className="text-muted-foreground text-xs">
+									Maximum file size: 4.5MB
+								</p>
+								<p className="text-muted-foreground text-xs">
+									(vercel limits | run locally to have more flexibility)
+								</p>
+							</>
 						)}
 					</div>
 					<input
