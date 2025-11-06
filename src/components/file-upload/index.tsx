@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { File, Upload, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,13 +14,16 @@ interface FileUploadProps {
 	isProcessing?: boolean;
 }
 
-const maxSize = process.env.MAX_FILE_SIZE_MB
-	? parseInt(process.env.MAX_FILE_SIZE_MB) * 1024 * 1024
+const maxSize = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB
+	? parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB) * 1024 * 1024
 	: 15 * 1024 * 1024; // Default to 15MB if not set
 
-const PRODUCTION = process.env.NODE_ENV === "production";
-
 export function FileUpload({ onFileSelect, isProcessing = false }: FileUploadProps) {
+	const isProduction = useMemo(() => {
+		if (typeof window === "undefined") return false;
+		return window.location.hostname !== "localhost";
+	}, []);
+
 	const {
 		isDragging,
 		selectedFile,
@@ -50,9 +55,9 @@ export function FileUpload({ onFileSelect, isProcessing = false }: FileUploadPro
 							Drop your PDF here or click to browse
 						</p>
 						<p className="text-muted-foreground text-xs">
-							Maximum file size: {maxSize / 1024 / 1024}MB
+							Maximum file size: {isProduction ? 4.5 : maxSize / 1024 / 1024}MB
 						</p>
-						{PRODUCTION && (
+						{isProduction && (
 							<p className="text-muted-foreground text-xs">
 								(vercel limits | run locally to have more flexibility)
 							</p>
