@@ -5,6 +5,10 @@ import { extractText } from "unpdf";
 import { generateMarkdownFromText } from "@/lib/gemini.service";
 import { MAX_REQUESTS_PER_DAY, getRequestCount } from "@/lib/redis.service";
 
+const maxSize = process.env.MAX_FILE_SIZE_MB
+	? parseInt(process.env.MAX_FILE_SIZE_MB) * 1024 * 1024
+	: 15 * 1024 * 1024; // Default to 15MB if not set
+
 export async function POST(request: NextRequest) {
 	try {
 		const currentCount = await getRequestCount();
@@ -30,6 +34,13 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json(
 				{ error: "Only PDF files are supported" },
 				{ status: 400 }
+			);
+		}
+
+		if (file.size > maxSize) {
+			return NextResponse.json(
+				{ error: `File size exceeds ${maxSize / 1024 / 1024}MB limit` },
+				{ status: 413 }
 			);
 		}
 
