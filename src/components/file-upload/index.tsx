@@ -56,20 +56,27 @@ export function FileUpload({ onFileSelect, isProcessing = false }: FileUploadPro
 				</Card>
 			) : (
 				<Card className="p-4">
-					<div className="flex items-center justify-between">
-						<div className="flex items-center gap-3">
-							<div className="bg-primary/10 rounded-lg p-2">
+					<div className="flex items-start justify-between gap-3">
+						<div className="flex min-w-0 flex-1 items-start gap-3">
+							<div className="bg-primary/10 shrink-0 rounded-lg p-2">
 								<File className="text-primary h-5 w-5" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<p className="truncate text-sm font-medium">{selectedFile.name}</p>
+								<p className="text-sm font-medium wrap-break-word">
+									{selectedFile.name}
+								</p>
 								<p className="text-muted-foreground text-xs">
 									{(selectedFile.size / 1024).toFixed(1)} KB
 								</p>
 							</div>
 						</div>
 						{!isProcessing && (
-							<Button variant="ghost" size="icon-sm" onClick={clearFile}>
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								onClick={clearFile}
+								className="shrink-0"
+							>
 								<X className="h-4 w-4" />
 							</Button>
 						)}
