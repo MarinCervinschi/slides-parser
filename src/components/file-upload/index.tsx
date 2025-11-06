@@ -12,6 +12,12 @@ interface FileUploadProps {
 	isProcessing?: boolean;
 }
 
+const maxSize = process.env.MAX_FILE_SIZE_MB
+	? parseInt(process.env.MAX_FILE_SIZE_MB) * 1024 * 1024
+	: 15 * 1024 * 1024; // Default to 15MB if not set
+
+const PRODUCTION = process.env.NODE_ENV === "production";
+
 export function FileUpload({ onFileSelect, isProcessing = false }: FileUploadProps) {
 	const {
 		isDragging,
@@ -43,7 +49,14 @@ export function FileUpload({ onFileSelect, isProcessing = false }: FileUploadPro
 						<p className="mb-1 text-sm font-medium">
 							Drop your PDF here or click to browse
 						</p>
-						<p className="text-muted-foreground text-xs">Maximum file size: 10MB</p>
+						<p className="text-muted-foreground text-xs">
+							Maximum file size: {maxSize / 1024 / 1024}MB
+						</p>
+						{PRODUCTION && (
+							<p className="text-muted-foreground text-xs">
+								(vercel limits | run locally to have more flexibility)
+							</p>
+						)}
 					</div>
 					<input
 						id="file-input"

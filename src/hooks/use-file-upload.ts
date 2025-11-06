@@ -6,6 +6,10 @@ interface UseFileUploadProps {
 	onFileSelect: (file: File) => void;
 }
 
+const maxSize = process.env.MAX_FILE_SIZE_MB
+	? parseInt(process.env.MAX_FILE_SIZE_MB) * 1024 * 1024
+	: 15 * 1024 * 1024; // Default to 15MB if not set
+
 export function useFileUpload({ onFileSelect }: UseFileUploadProps) {
 	const [isDragging, setIsDragging] = useState(false);
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -19,9 +23,8 @@ export function useFileUpload({ onFileSelect }: UseFileUploadProps) {
 			return false;
 		}
 
-		const maxSize = 15 * 1024 * 1024; // 15MB
 		if (file.size > maxSize) {
-			setError("File size must be less than 15MB");
+			setError(`File size must be less than ${maxSize / 1024 / 1024}MB`);
 			return false;
 		}
 
