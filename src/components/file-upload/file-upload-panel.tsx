@@ -10,6 +10,8 @@ interface FileUploadPanelProps {
 	requestCount: number;
 }
 
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
 export function FileUploadPanel({
 	onFileSelect,
 	isProcessing,
@@ -25,9 +27,11 @@ export function FileUploadPanel({
 					</p>
 				</div>
 				<FileUpload onFileSelect={onFileSelect} isProcessing={isProcessing} />
-				<div className="pt-2">
-					<RequestCounter key={requestCount} />
-				</div>
+				{IS_PRODUCTION && (
+					<div className="pt-2">
+						<RequestCounter key={requestCount} />
+					</div>
+				)}
 			</div>
 
 			<div className="mt-4 border-t pt-4">
