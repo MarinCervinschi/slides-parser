@@ -18,7 +18,7 @@ A web application that converts PDF slides into well-formatted Markdown using AI
 
 ## Features
 
-- 📄 Upload PDF files (up to 10MB)
+- 📄 Upload PDF files
 - 🤖 AI-powered conversion to Markdown using Google Gemini
 - ✏️ Live Markdown editor with real-time preview
 - 📋 Copy to clipboard functionality
@@ -27,13 +27,18 @@ A web application that converts PDF slides into well-formatted Markdown using AI
 - 🔄 Drag-and-drop file upload
 - 📈 Rate limiting (3 requests per user every day)
 
+## Live Demo
+
+Try the app live at: [https://slides-parser.vercel.app](https://slides-parser.vercel.app).  
+The vercel has a limit on file size uploads (4.5MB). For larger files, run locally.
+
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+ installed
 - A Google Gemini API key (get one at https://aistudio.google.com/app/apikey)
-- An Upstash Redis database for request tracking
+- An Upstash Redis database for request tracking (only in prod. To use the app locally you can skip this step)
 
 ### Installation
 
@@ -74,7 +79,10 @@ yarn dev
 
 ## Usage
 
-1. **Upload a PDF**: Click the upload area or drag and drop a PDF file (max 10MB)
+1. **Upload a PDF**: Click the upload area or drag and drop a PDF file (max 15MB)
+
+- update the max file size via `NEXT_PUBLIC_MAX_FILE_SIZE_MB` environment variable
+
 2. **Wait for Processing**: The app will extract text and convert it to Markdown using AI
 3. **Edit**: Make any changes you want in the Markdown editor
 4. **Preview**: See the rendered Markdown in real-time on the right panel
@@ -91,14 +99,14 @@ yarn dev
 The application includes comprehensive error handling for:
 
 - Invalid file types (only PDFs are supported)
-- File size limits (max 10MB)
+- File size limits
 - PDF parsing errors
 - API errors (network issues, invalid API key, etc.)
 - Empty or corrupted PDFs
 
 All errors are displayed to the user via toast notifications.
 
-## Rate Limiting and Request Tracking
+## Rate Limiting and Request Tracking (Production Only)
 
 To prevent abuse and ensure fair usage, the application implements a hybrid rate-limiting mechanism.
 
